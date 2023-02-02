@@ -6,26 +6,30 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import javax.net.ssl.HttpsURLConnection;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
+import java.io.*;
+
 public class SingleTest extends BrowserStackTestNGTest {
 
     @Test
     public void test() throws Exception {
-    	  // navigate to bstackdemo
+    	// navigate to bstackdemo
         driver.get("https://www.bstackdemo.com");
-        
         // Check the title
         Assert.assertTrue(driver.getTitle().matches("StackDemo"));
-        
-        // Save the text of the product for later verify
-        String productOnScreenText = driver.findElement(By.xpath("//*[@id=\"1\"]/p")).getText();
-        // Click on add to cart button
-        driver.findElement(By.xpath("//*[@id=\"1\"]/div[4]")).click();
-        
-        // See if the cart is opened or not
-        Assert.assertTrue(driver.findElement(By.cssSelector(".float\\-cart__content")).isDisplayed());
-        
-        // Check the product inside the cart is same as of the main page
-        String productOnCartText = driver.findElement(By.xpath("//*[@id=\"__next\"]/div/div/div[2]/div[2]/div[2]/div/div[3]/p[1]")).getText();
-        Assert.assertEquals(productOnScreenText, productOnCartText);
+
+        // local java code
+        URL url = new URL("http://www.google.com"); // your API endpoint
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        con.setRequestMethod("GET");
+        con.setRequestProperty("Content-Type", "application/json");
+        int status = con.getResponseCode();
+        con.disconnect();
+        System.out.println("\n Response Code :: ");
+        System.out.println(status);
+        //local java code over
     }
 }

@@ -16,6 +16,5 @@ This branch contains TestNG samples with selenium-4.
 
 ### Running your tests
 
-- To run a single test, run `mvn test -P single`
-- To run local tests, run `mvn test -P local`
-- To run test with execute script `POST`, run `mvn test -P executescript`
+- To run a test with java API call, run `mvn test -P single`
+- To run test with `POST` using execute script, run `mvn test -P executescript`

@@ -5,10 +5,11 @@
 
   "capabilities": {
     "bstack:options": {
-      "buildName": "browserstack-build-1",
-      "sessionName": "BStack single java-selenium",
+      "buildName": "post_in_js_executor",
       "browserVersion": "latest",
-      "debug": true
+      "debug": true,
+      "consoleLogs": "info",
+      "local": true
     }
   },
 

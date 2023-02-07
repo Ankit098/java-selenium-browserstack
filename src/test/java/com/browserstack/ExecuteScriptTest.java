@@ -17,35 +17,38 @@ public class ExecuteScriptTest extends BrowserStackTestNGTest {
 
     @Test
     public void test() throws Exception {
-    	// navigate to bstackdemo
-        driver.get("https://www.bstackdemo.com");
-        // Check the title
-        Assert.assertTrue(driver.getTitle().matches("StackDemo"));
+    	// navigate to your website
+        driver.get("https://www.dataaccess.com/webservicesserver/NumberConversion.wso"); // replace with your url
+        // Perform your selenium commands..
+        Assert.assertTrue(driver.getTitle().matches("Number Conversion Service"));
 
         // execute script
         String newLine = System.getProperty("line.separator");
-        String postReqScript = "let xhr = new XMLHttpRequest();" + newLine
-                                + "xhr.open(\"POST\", \"https://reqbin.com/echo/post/json\");" + newLine // your API endpoint
-                                + "xhr.setRequestHeader(\"Accept\", \"application/json\");" + newLine
-                                + "xhr.setRequestHeader(\"Content-Type\", \"application/json\");" + newLine
-                                + "xhr.onreadystatechange = function () {" + newLine
-                                + "if (xhr.readyState === 4) {" + newLine
-                                + "console.log(xhr.status);" + newLine
-                                + "console.log(xhr.responseText);" + newLine
-                                + "}};" + newLine
-                                + "let data = `{" + newLine
-                                + "\"Id\": 78912," + newLine
-                                + "\"Customer\": \"Jason Sweet\"," + newLine
-                                + "\"Quantity\": 1," + newLine
-                                + "\"Price\": 18.00" + newLine
-                                + "}`;" + newLine
-                                + "xhr.send(data);";
+        String postReqScript = "let xmlhttp = new XMLHttpRequest();" + newLine
+                                + "xmlhttp.open('POST', 'https://www.dataaccess.com/webservicesserver/NumberConversion.wso', true);" + newLine // your API endpoint here
+                                + "let sr = '<?xml version=\"1.0\" encoding=\"utf-8\"?>' +" + newLine
+                                + "'<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">' +" + newLine
+                                + "'<soap:Body>' +" + newLine
+                                + "'<NumberToWords xmlns=\"http://www.dataaccess.com/webservicesserver/\">' +" + newLine
+                                + "'<ubiNum>500</ubiNum>' +" + newLine
+                                + "'</NumberToWords>' +" + newLine
+                                + "'</soap:Body>' +" + newLine
+                                + "'</soap:Envelope>'" + newLine
+                                + "xmlhttp.onreadystatechange = function () {" + newLine
+                                + "if (xmlhttp.readyState == 4) {" + newLine
+                                + "if (xmlhttp.status == 200) {" + newLine
+                                + "console.log(xmlhttp.responseText);" + newLine
+                                + "}" + newLine
+                                + "}" + newLine
+                                + "}" + newLine
+                                + "xmlhttp.setRequestHeader('Content-Type', 'text/xml');" + newLine
+                                + "xmlhttp.send(sr);";
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript(postReqScript);
         // execute script over
 
-        // rest of the test
+        // continue with the rest of the test
         Thread.sleep(5000);
-        Assert.assertTrue(driver.getTitle().matches("StackDemo"));
+        Assert.assertTrue(driver.getTitle().matches("Number Conversion Service"));
     }
 }

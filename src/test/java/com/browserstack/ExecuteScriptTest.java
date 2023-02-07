@@ -22,33 +22,30 @@ public class ExecuteScriptTest extends BrowserStackTestNGTest {
         // Perform your selenium commands..
         Assert.assertTrue(driver.getTitle().matches("Number Conversion Service"));
 
-        // execute script
-        String newLine = System.getProperty("line.separator");
-        String postReqScript = "let xmlhttp = new XMLHttpRequest();" + newLine
-                                + "xmlhttp.open('POST', 'https://www.dataaccess.com/webservicesserver/NumberConversion.wso', true);" + newLine // your API endpoint here
-                                + "let sr = '<?xml version=\"1.0\" encoding=\"utf-8\"?>' +" + newLine
-                                + "'<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">' +" + newLine
-                                + "'<soap:Body>' +" + newLine
-                                + "'<NumberToWords xmlns=\"http://www.dataaccess.com/webservicesserver/\">' +" + newLine
-                                + "'<ubiNum>500</ubiNum>' +" + newLine
-                                + "'</NumberToWords>' +" + newLine
-                                + "'</soap:Body>' +" + newLine
-                                + "'</soap:Envelope>'" + newLine
-                                + "xmlhttp.onreadystatechange = function () {" + newLine
-                                + "if (xmlhttp.readyState == 4) {" + newLine
-                                + "if (xmlhttp.status == 200) {" + newLine
-                                + "console.log(xmlhttp.responseText);" + newLine
-                                + "}" + newLine
-                                + "}" + newLine
-                                + "}" + newLine
-                                + "xmlhttp.setRequestHeader('Content-Type', 'text/xml');" + newLine
-                                + "xmlhttp.send(sr);";
+        // execute script start
+        String postReqScript = "function makeRequest (method, url) {\n" +
+                "    var xhr = new XMLHttpRequest();\n" +
+                "    xhr.open(method, url,false);\n" +
+                "    var sr = '<?xml version=\"1.0\" encoding=\"utf-8\"?>' +\n" +
+                "    '<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\">' +\n" +
+                "        '<soap:Body>' +\n" +
+                "            '<NumberToWords xmlns=\"http://www.dataaccess.com/webservicesserver/\">' +\n" +
+                "                '<ubiNum>500</ubiNum>' +\n" +
+                "            '</NumberToWords>' +\n" +
+                "        '</soap:Body>' +\n" +
+                "    '</soap:Envelope>'\n" +
+                "    xhr.setRequestHeader('Content-Type', 'text/xml');\n" +
+                "    xhr.send(sr);\n" +
+                "    return xhr.response;\n" +
+                "}\n" +
+                "return makeRequest('POST', 'https://www.dataaccess.com/webservicesserver/NumberConversion.wso');\n";
         JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript(postReqScript);
+        String result = (String) js.executeScript(postReqScript);
+        System.out.println("\nResult of SOAP POST request:\n");
+        System.out.println(result);
         // execute script over
 
-        // continue with the rest of the test
-        Thread.sleep(5000);
+        // continue with the rest of the selenium test
         Assert.assertTrue(driver.getTitle().matches("Number Conversion Service"));
     }
 }

@@ -9,7 +9,9 @@
       "browserVersion": "latest",
       "debug": true,
       "consoleLogs": "info",
-      "local": true
+      "local": true,
+      "os": "Windows",
+      "osVersion": "10"
     }
   },
 

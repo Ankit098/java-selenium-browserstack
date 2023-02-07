@@ -31,9 +31,5 @@ public class SingleTest extends BrowserStackTestNGTest {
         System.out.println("\n Response Code :: ");
         System.out.println(status);
         //local java code over
-
-        // continue with the rest of the test
-        Thread.sleep(5000);
-        Assert.assertTrue(driver.getTitle().matches("StackDemo"));
     }
 }

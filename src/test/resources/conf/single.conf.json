@@ -12,6 +12,9 @@
       "local": true,
       "os": "Windows",
       "osVersion": "10"
+    },
+    "proxy": {
+      
     }
   },
 

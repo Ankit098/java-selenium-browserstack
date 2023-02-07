@@ -12,7 +12,9 @@ This branch contains TestNG samples with selenium-4.
 
 - Clone the repo
 - Install dependencies `mvn compile`
-- Update `*.conf.json` files inside the `src/test/resources/conf` directory with your [BrowserStack Username and Access Key](https://www.browserstack.com/accounts/settings)
+- Update `single.conf.json` files inside the `src/test/resources/conf` directory with your [BrowserStack Username and Access Key](https://www.browserstack.com/accounts/settings)
+- Add the proxy details in the `src/test/resources/conf/single.conf.json` as needed.
+- Start local binary with the relevant flags for accessing private website.
 
 ### Running your tests
 

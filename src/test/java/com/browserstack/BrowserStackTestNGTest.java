@@ -6,8 +6,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import com.browserstack.local.Local;
-
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.openqa.selenium.WebDriver;
@@ -17,7 +15,6 @@ import org.testng.annotations.*;
 
 public class BrowserStackTestNGTest {
     public WebDriver driver;
-    private static Local l;
     private static JSONObject config;
     private static Map<String, Object> commonCapabilities;
     private static String username;
@@ -41,17 +38,6 @@ public class BrowserStackTestNGTest {
         if (accessKey == null) {
             accessKey = (String) config.get("key");
         }
-		try {
-			if ((bstackOptionsMap.get("local") != null &&
-					bstackOptionsMap.get("local").toString().equalsIgnoreCase("true") && (l == null))) {
-				l = new Local();
-				Map<String, String> options = new HashMap<String, String>();
-				options.put("key", accessKey);
-				l.start(options);
-			}
-		} catch (Exception e) {
-			System.out.println("Error while start local - " + e);
-		}
     }
 
     @BeforeMethod(alwaysRun = true)
@@ -84,18 +70,6 @@ public class BrowserStackTestNGTest {
             }
         }
 
-        if (capabilities.getCapability("bstack:options") != null) {
-            HashMap bstackOptionsMap = (HashMap) capabilities.getCapability("bstack:options");
-            if ((bstackOptionsMap.get("local") != null &&
-                    bstackOptionsMap.get("local").toString().equalsIgnoreCase("true") && (l == null || !l.isRunning()))) {
-                l = new Local();
-                Map<String, String> options = new HashMap<String, String>();
-                options.put("key", accessKey);
-                l.start(options);
-            }
-            bstackOptionsMap.put("source", "java-selenium:sample-selenium-4:v1.0");
-        }
-
         driver = new RemoteWebDriver(
                 new URL("http://" + username + ":" + accessKey + "@" + config.get("server") + "/wd/hub"), capabilities);
     }
@@ -103,10 +77,5 @@ public class BrowserStackTestNGTest {
     @AfterMethod(alwaysRun = true)
     public void tearDown() {
         driver.quit();
-    }
-
-    @AfterSuite(alwaysRun = true)
-    public void afterSuite() throws Exception {
-        if (l != null) l.stop();
     }
 }
